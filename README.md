@@ -2,7 +2,7 @@
 
 An interactive data exploration of **62,810 hourly electricity records** from Romania's national grid covering 2019–2025 (with partial 2026). All charts and data are precomputed into a single file — no server, no database, no API calls. Just open the page and explore.
 
-**Live demo:** [.vercel.app]
+**Live demo:** [[.vercel.app](https://energy-data-three.vercel.app/)]
 
 ---
 
