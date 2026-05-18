@@ -119,15 +119,14 @@ No server, no database, no API. Everything runs in the browser.
 
 ```
 energyData/
-  electricityConsumptionAndProductioction.csv  Source data (hourly records)
+  index.html                                   The web page
+  style.css                                    All colors, fonts, and layout
+  data.js                                      Precomputed data (statistics + charts)
   export_data.py                               Python script that generates data.js
+  electricityConsumptionAndProductioction.csv  Source data (hourly records)
   requirements.txt                             Python dependencies
   vercel.json                                  Configuration for deploying to Vercel
-  energy-analysis-site/
-    index.html                                 The web page
-    style.css                                  All colors, fonts, and layout
-    data.js                                    Precomputed data (statistics + charts)
-    package.json                               npm metadata
+  package.json                                 npm metadata
   README.md                                    This file
 ```
 
@@ -169,7 +168,7 @@ Real-world datasets contain imperfections. This analysis handles several known i
 
 ## How to Run Locally
 
-The site works immediately — just open `energy-analysis-site/index.html` in any browser. No installation needed.
+The site works immediately — just open `index.html` in any browser. No installation needed.
 
 ### To Regenerate the Data (Optional)
 

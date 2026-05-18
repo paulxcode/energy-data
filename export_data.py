@@ -10,7 +10,7 @@ from plotly.subplots import make_subplots
 warnings.filterwarnings("ignore")
 
 CSV_PATH = os.path.join(os.path.dirname(__file__), "electricityConsumptionAndProductioction.csv")
-DATA_JS_PATH = os.path.join(os.path.dirname(__file__), "energy-analysis-site", "data.js")
+DATA_JS_PATH = os.path.join(os.path.dirname(__file__), "data.js")
 
 df = pd.read_csv(CSV_PATH, parse_dates=["DateTime"])
 df = df.sort_values("DateTime").reset_index(drop=True)
