@@ -1,4 +1,5 @@
 {
   "buildCommand": "python export_data.py",
-  "outputDirectory": "energy-analysis-site"
+  "outputDirectory": "energy-analysis-site",
+  "rootDirectory": "."
 }
