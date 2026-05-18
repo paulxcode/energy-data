@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<title>Romania Energy Analysis</title>
+<script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+<script src="data.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+
+<section class="hero" id="hero">
+  <h1>Romania Energy Analysis</h1>
+  <p>An exploratory data analysis of <strong id="dateRange"></strong> hourly electricity consumption and production data from Romania</p>
+  <div class="stats-row" id="statsGrid"></div>
+</section>
+
+<section id="methodology">
+  <h2>Data &amp; Methodology</h2>
+  <p class="section-sub">How this analysis was conducted, from raw hourly data to insights</p>
+  <div class="alert">
+    <strong>Data Coverage:</strong> 62,810 hourly records from 2019–2025 (with partial 2026). See Data Quality section for caveats.
+  </div>
+  <div class="methodology-grid">
+    <div class="meth-item">
+      <h3>Data Source</h3>
+      <p>Hourly electricity consumption and production data from Romania's national grid. Covers <strong id="totalRecords"></strong> hourly observations with detailed breakdown by energy source (Nuclear, Wind, Hydroelectric, Solar, Coal, Oil &amp; Gas, Biomass).</p>
+    </div>
+    <div class="meth-item">
+      <h3>Tools &amp; Libraries</h3>
+      <ul>
+        <li>Python for data processing and analysis</li>
+        <li>Pandas and NumPy for data wrangling</li>
+        <li>Plotly for interactive visualizations</li>
+        <li>Statistical aggregation and time-series analysis</li>
+      </ul>
+    </div>
+    <div class="meth-item">
+      <h3>Process</h3>
+      <ul>
+        <li>Hourly data parsing and time-series aggregation</li>
+        <li>Data cleaning &amp; feature engineering</li>
+        <li>Peak load and renewable production analysis</li>
+        <li>Energy source breakdown and seasonality</li>
+        <li>Import/export and self-sufficiency metrics</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="overview">
+  <h2>Key Metrics</h2>
+  <p class="section-sub">High-level statistics across the entire dataset</p>
+  <div class="metrics-overview" id="metricsOverview"></div>
+</section>
+
+<section id="consumption">
+  <h2>Consumption &amp; Production Over Time</h2>
+  <p class="section-sub">Hourly electricity consumption and production trends across the dataset</p>
+  <div class="chart-grid">
+    <div class="plot" id="cpChart"></div>
+  </div>
+  <div class="insight"><strong>Key insight:</strong> Peak consumption reached <strong id="peakConsumption"></strong> MW on <strong id="peakConsumptionTime"></strong>. Average hourly consumption is <strong id="avgConsumption"></strong> MW, while production averages <strong id="avgProduction"></strong> MW.</div>
+</section>
+
+<section id="production">
+  <h2>Production by Energy Source</h2>
+  <p class="section-sub">Energy mix composition showing the contribution of each source over time</p>
+  <div class="chart-grid chart-grid-2">
+    <div class="plot" id="mixChart"></div>
+    <div class="plot" id="donutChart"></div>
+  </div>
+  <div class="insight"><strong>Key insight:</strong> <strong id="dominantSource"></strong> is the dominant energy source at <strong id="dominantPct"></strong>%, followed by renewable sources. Self-sufficiency rate is <strong id="selfSufficiency"></strong>%.</div>
+</section>
+
+<section id="sources">
+  <h2>Energy Mix Breakdown</h2>
+  <p class="section-sub">Average monthly renewable production and baseload vs intermittent comparison</p>
+  <div class="chart-grid chart-grid-2">
+    <div class="plot" id="monthlyChart"></div>
+    <div class="plot" id="baseloadChart"></div>
+  </div>
+</section>
+
+<section id="renewable">
+  <h2>Renewable Energy Analysis</h2>
+  <p class="section-sub">Solar and wind production patterns with seasonal variations</p>
+  <div class="chart-grid chart-grid-2">
+    <div class="plot" id="renewableChart"></div>
+    <div class="plot" id="diurnalChart"></div>
+  </div>
+  <div class="insight"><strong>Key insight:</strong> Renewable energy share across the dataset is <strong id="renewableShare"></strong>%. Solar and wind are highly variable, requiring baseload sources like nuclear for grid stability.</div>
+</section>
+
+<section id="trade">
+  <h2>Import/Export &amp; Grid Balance</h2>
+  <p class="section-sub">Net energy flow showing periods of export (surplus) vs import (deficit)</p>
+  <div class="chart-grid">
+    <div class="plot" id="flowChart"></div>
+  </div>
+  <div class="chart-grid chart-grid-2">
+    <div class="plot" id="heatmapChart"></div>
+    <div class="plot" id="shareChart"></div>
+  </div>
+  <div class="insight"><strong>Key insight:</strong> Romania exported electricity during <strong id="exportHours"></strong> hours and imported during <strong id="importHours"></strong> hours. The renewable share trend reveals the increasing role of variable renewable energy.</div>
+</section>
+
+<section id="findings">
+  <h2>Key Findings</h2>
+  <p class="section-sub">Major insights from the energy analysis</p>
+  <div class="findings-list" id="findingsGrid"></div>
+</section>
+
+<footer>
+  Built with Python, Pandas &amp; Plotly &nbsp;·&nbsp; Data from Romania's national electricity grid
+</footer>
+
+<script>
+const DATA = window.SITE_DATA;
+const CHARTS = DATA.charts;
+
+function $(id) { return document.getElementById(id); }
+function chart(id, key) {
+  const fig = CHARTS[key];
+  if (fig) {
+    const layout = Object.assign({}, fig.layout, {
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      font: Object.assign({}, fig.layout.font, {
+        family: 'Inter, system-ui, sans-serif',
+        color: '#94a3b8',
+        size: 11
+      }),
+      xaxis: Object.assign({}, fig.layout.xaxis, {
+        gridcolor: '#2a2b2e',
+        zerolinecolor: '#2a2b2e'
+      }),
+      yaxis: Object.assign({}, fig.layout.yaxis, {
+        gridcolor: '#2a2b2e',
+        zerolinecolor: '#2a2b2e'
+      })
+    });
+    Plotly.newPlot(id, fig.data, layout, { responsive: true, displayModeBar: false });
+  }
+}
+
+$("dateRange").textContent = DATA.date_range;
+$("totalRecords").textContent = DATA.total_records.toLocaleString();
+
+$("statsGrid").innerHTML = [
+  [DATA.date_range, "Time Period"],
+  [DATA.total_records.toLocaleString(), "Hourly Records"],
+  [(DATA.total_production / 1000000).toFixed(1) + " TWh", "Total Production"],
+  [(DATA.total_consumption / 1000000).toFixed(1) + " TWh", "Total Consumption"],
+].map(([val, label]) =>
+  `<div class="stat-item"><div class="num">${val}</div><div class="label">${label}</div></div>`
+).join("");
+
+$("metricsOverview").innerHTML = `
+<div class="metric-item">
+  <div class="metric-label">Peak Consumption</div>
+  <div class="metric-value">${DATA.peak_consumption_val.toLocaleString()} MW</div>
+  <div class="metric-time">${DATA.peak_consumption_time}</div>
+</div>
+<div class="metric-item">
+  <div class="metric-label">Peak Production</div>
+  <div class="metric-value">${DATA.peak_production_val.toLocaleString()} MW</div>
+  <div class="metric-time">${DATA.peak_production_time}</div>
+</div>
+<div class="metric-item">
+  <div class="metric-label">Avg Consumption</div>
+  <div class="metric-value">${DATA.avg_hourly_consumption.toLocaleString()} MW</div>
+</div>
+<div class="metric-item">
+  <div class="metric-label">Avg Production</div>
+  <div class="metric-value">${DATA.avg_hourly_production.toLocaleString()} MW</div>
+</div>
+`;
+
+chart("cpChart", "consumption_production");
+chart("mixChart", "energy_mix");
+chart("donutChart", "energy_mix_donut");
+chart("monthlyChart", "monthly_renewable");
+chart("baseloadChart", "baseload_vs_intermittent");
+chart("renewableChart", "solar_wind");
+chart("diurnalChart", "diurnal_profiles");
+chart("flowChart", "net_flow");
+chart("heatmapChart", "hourly_heatmap");
+chart("shareChart", "renewable_share");
+
+$("peakConsumption").textContent = DATA.peak_consumption_val.toLocaleString() + " MW";
+$("peakConsumptionTime").textContent = DATA.peak_consumption_time;
+$("avgConsumption").textContent = DATA.avg_hourly_consumption.toLocaleString() + " MW";
+$("avgProduction").textContent = DATA.avg_hourly_production.toLocaleString() + " MW";
+
+const sourceKeys = Object.keys(DATA.source_pct);
+const dominant = sourceKeys.reduce((a, b) => DATA.source_pct[a] > DATA.source_pct[b] ? a : b);
+$("dominantSource").textContent = dominant;
+$("dominantPct").textContent = DATA.source_pct[dominant];
+
+$("selfSufficiency").textContent = DATA.self_sufficiency_pct;
+const renewableTotal = (DATA.source_pct["Wind"] || 0) + (DATA.source_pct["Solar"] || 0) + (DATA.source_pct["Hydroelectric"] || 0) + (DATA.source_pct["Biomass"] || 0);
+$("renewableShare").textContent = renewableTotal.toFixed(1);
+$("exportHours").textContent = DATA.total_export_hours.toLocaleString();
+$("importHours").textContent = DATA.total_import_hours.toLocaleString();
+
+$("findingsGrid").innerHTML = [
+  { num: DATA.peak_consumption_val.toLocaleString() + " MW", text: "Peak consumption across the dataset. Managing peak demand is critical for grid stability." },
+  { num: DATA.self_sufficiency_pct + "%", text: "Self-sufficiency rate. Romania exports or imports electricity depending on seasonal production patterns." },
+  { num: (DATA.source_pct["Nuclear"] || 0).toFixed(1) + "%", text: `Nuclear dominates baseload production, providing stable, dispatchable power year-round.` },
+  { num: renewableTotal.toFixed(1) + "%", text: "Combined renewable energy share. High variability requires active grid management and balancing." },
+  { num: ((DATA.total_export_hours / DATA.total_records) * 100).toFixed(1) + "%", text: "Percentage of hours with net export. Seasonal patterns drive import/export dynamics." },
+  { num: DATA.latest_year, text: "Latest year in dataset. Renewable energy integration continues to grow, reshaping Romania's energy mix." },
+].map(f =>
+  `<div class="finding-item"><div class="num">${f.num}</div><p>${f.text}</p></div>`
+).join("");
+</script>
+</body>
+</html>

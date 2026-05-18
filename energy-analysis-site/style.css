@@ -1,0 +1,195 @@
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0f0f11;
+  --bg-card: #1a1b1e;
+  --border: #2a2b2e;
+  --text: #cbd5e1;
+  --text-muted: #64748b;
+  --text-heading: #f1f5f9;
+  --accent: #5b8a9a;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 6rem 1rem 4rem;
+}
+.hero h1 {
+  font-size: 2rem;
+  color: var(--text-heading);
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+.hero p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 3rem;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+.stat-item { text-align: center; }
+.stat-item .num {
+  font-size: 2.5rem;
+  color: var(--accent);
+  font-weight: 400;
+}
+.stat-item .label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+  color: var(--text-heading);
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+}
+.section-sub {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.plot { width: 100%; height: 500px; }
+.plot-tall { height: 850px; }
+.plot-med { height: 550px; }
+.plot-3-grid { height: 420px; }
+
+.chart-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.chart-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.insight {
+  margin-top: 1rem;
+  padding: 0.75rem 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+.insight strong { color: var(--text); }
+
+.methodology-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.meth-item h3 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.meth-item p, .meth-item ul {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.meth-item ul { list-style: none; padding: 0; }
+.meth-item ul li { margin-bottom: 0.25rem; }
+.meth-item ul li::before { content: "\25B8 "; color: var(--accent); }
+
+.metrics-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.metric-item .metric-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+.metric-item .metric-value {
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+.metric-item .metric-time {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.alert {
+  margin: 1.5rem 0;
+  padding: 0.75rem 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+.alert strong { color: var(--text); }
+
+.findings-list { }
+.finding-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.finding-item:last-child { border-bottom: none; }
+.finding-item .num {
+  font-size: 1.25rem;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+.finding-item p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+footer a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 768px) {
+  section { padding: 3rem 1rem; }
+  .hero { padding: 4rem 1rem 3rem; }
+  .hero h1 { font-size: 1.5rem; }
+  .stats-row { gap: 2rem; flex-wrap: wrap; }
+  .stat-item { flex: 1 1 40%; }
+  .methodology-grid { grid-template-columns: repeat(2, 1fr); }
+  .metrics-overview { grid-template-columns: repeat(2, 1fr); }
+  .chart-grid-2 { grid-template-columns: 1fr; }
+  .chart-grid-3 { grid-template-columns: 1fr; }
+  .plot { height: 350px; }
+  .plot-tall { height: 600px; }
+}
+@media (max-width: 480px) {
+  section { padding: 2rem 1rem; }
+  .stats-row { flex-direction: column; gap: 1.5rem; }
+  .stat-item { flex: none; }
+  .methodology-grid { grid-template-columns: 1fr; }
+  .metrics-overview { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 1.25rem; }
+  .plot { height: 300px; }
+  .plot-tall { height: 450px; }
+}

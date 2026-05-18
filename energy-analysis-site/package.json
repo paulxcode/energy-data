@@ -1,0 +1,10 @@
+{
+  "name": "energy-analysis-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Interactive energy analysis visualization for Romania's electricity grid",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "export": "python export_data.py"
+  }
+}
