@@ -16,13 +16,13 @@ df = pd.read_csv(CSV_PATH, parse_dates=["DateTime"])
 df = df.sort_values("DateTime").reset_index(drop=True)
 
 # Data Validation & Cleaning
-print("🔍 Data Validation Report:")
+print("Data Validation Report:")
 print("=" * 60)
 
 # Check for negative values (clean wind values)
 negative_wind = (df["Wind"] < 0).sum()
 if negative_wind > 0:
-    print(f"⚠️  Found {negative_wind} negative wind values, setting to 0")
+    print(f"[WARN] Found {negative_wind} negative wind values, setting to 0")
     df.loc[df["Wind"] < 0, "Wind"] = 0
 
 # Check data continuity
@@ -37,13 +37,13 @@ year_counts = df["Year"].value_counts().sort_index()
 for year, count in year_counts.items():
     expected = 8784 if year % 4 == 0 else 8760  # leap year
     if count < expected - 100:
-        print(f"⚠️  Year {year}: only {count} records (expected ~{expected})")
+        print(f"[WARN] Year {year}: only {count} records (expected ~{expected})")
 
 total_records = len(df)
 date_min = df["DateTime"].min().strftime("%Y-%m-%d")
 date_max = df["DateTime"].max().strftime("%Y-%m-%d")
-print(f"✓ Date range: {date_min} to {date_max}")
-print(f"✓ Total records: {total_records:,}")
+print(f"[OK] Date range: {date_min} to {date_max}")
+print(f"[OK] Total records: {total_records:,}")
 print("=" * 60 + "\n")
 
 total_consumption = int(df["Consumption"].sum())

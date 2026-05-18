@@ -120,6 +120,10 @@
 </footer>
 
 <script>
+if (!window.SITE_DATA || !window.Plotly) {
+  document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:1rem;font-family:Inter,system-ui,sans-serif;background:#1a1b1e;color:#e2e8f0"><h2>Data Unavailable</h2><p>The visualization data failed to load. Please try refreshing the page.</p></div>';
+  throw new Error("Missing SITE_DATA or Plotly");
+}
 const DATA = window.SITE_DATA;
 const CHARTS = DATA.charts;
 
