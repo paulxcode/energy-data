@@ -1,4 +1,6 @@
 {
+  "version": 2,
   "buildCommand": "python export_data.py",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "builds": [{ "src": "/*", "use": "@vercel/static" }]
 }
